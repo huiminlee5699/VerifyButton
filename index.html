@@ -276,9 +276,10 @@
             verifyPill.className = 'verify-bubble';
             verifyPill.textContent = '✓ Verify this response';
             verifyPill.addEventListener('click', () => {
-                hasClickedVerify = true;
-                verifyClickCount++;
-                trackEvent({ type: 'verify_click', topic: responseObj.topic, verifyClickCount });
+                if (!hasClickedVerify) {
+                    hasClickedVerify = true;
+                    trackEvent({ type: 'verify_click', topic: responseObj.topic });
+                }
                 showModal('This function is not available at this time.');
             });
 
