@@ -205,7 +205,7 @@
         }
 
         async function streamText(span, text) {
-            for (let i = 0; i < text.length; i += 3) {       // <-- change 3 to any chunk size
+            for (let i = 0; i < text.length; i += 3) {
                 span.textContent += text.slice(i, i + 3);
                 chatContainer.scrollTop = chatContainer.scrollHeight;
                 await delay(1 + Math.random() * 1);
@@ -233,8 +233,10 @@
             shareBtn.className = 'icon-btn';
             shareBtn.innerHTML = SHARE_SVG + '<span class="tooltip">Share response</span>';
             shareBtn.addEventListener('click', () => {
-                hasClickedShare = true;
-                trackEvent({ type: 'share_click', topic });
+                if (!hasClickedShare) {
+                    hasClickedShare = true;
+                    trackEvent({ type: 'share_click', topic });
+                }
                 showModal('This function is not available at this time.');
             });
 
@@ -296,10 +298,7 @@
                 type: 'chat_response',
                 topic: responseObj.topic,
                 userMessage: responseObj.question,
-                responseType: 'scripted',
-                source_clicked: 0,
-                verify_clicked: hasClickedVerify ? 1 : 0,
-                share_clicked: actionRow.getShareClicked()
+                responseType: 'scripted'
             });
         }
 
@@ -317,7 +316,7 @@
             reminder.textContent = 'Please type in the assigned prompt.';
             messageContent.appendChild(reminder);
             chatContainer.scrollTop = chatContainer.scrollHeight;
-            trackEvent({ type: 'chat_response', topic: null, userMessage, responseType: 'redirect', source_clicked: 0, verify_clicked: 0, share_clicked: 0 });
+            trackEvent({ type: 'chat_response', topic: null, userMessage, responseType: 'redirect' });
         }
 
         async function sendMessage() {
