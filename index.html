@@ -450,11 +450,15 @@
             trackEvent({ type: 'chat_response', topic: null, userMessage, responseType: 'redirect' });
         }
 
+        let hasSubmitted = false;
+
         async function sendMessage() {
-            if (isProcessing) return;
+            if (isProcessing || hasSubmitted) return;
             const message = messageInput.value.trim();
             if (!message) return;
+            hasSubmitted = true;
             isProcessing = true;
+            messageInput.setAttribute('readonly', true);
             updateSendButton();
             addUserMessage(message);
             messageInput.value = '';
