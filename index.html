@@ -478,7 +478,7 @@
         }
 
         async function handleGreeting(messageContent, userMessage) {
-            await showTypingThenRespond(messageContent, 'Hi, how may I help you today?');
+            await showTypingThenRespond(messageContent, 'Please copy and paste the prompt in red to start the conversation.');
             trackEvent({ type: 'chat_response', topic: null, userMessage, responseType: 'greeting' });
         }
 
